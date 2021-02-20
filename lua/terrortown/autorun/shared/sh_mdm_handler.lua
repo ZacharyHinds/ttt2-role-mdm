@@ -275,6 +275,6 @@ if CLIENT then
   net.Receive("ttt2_mdm_chatsend", function()
     local mdm = LocalPlayer()
     local noise = net.ReadString()
-    mdm:PrintMessage(LANG.GetParamTranslation("ttt2_mdm_spirit", {msg = noise}), HUD_PRINTTALK) -- "The spirit says 'msg'"
+    mdm:PrintMessage(LANG.GetParamTranslation(HUD_PRINTTALK, "ttt2_mdm_spirit", {msg = noise})) -- "The spirit says 'msg'"
   end)
 end
