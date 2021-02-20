@@ -3,6 +3,7 @@ if SERVER then
     local json = util.TableToJSON(tbl)
     file.Write("ttt2_mdm_noises.txt", json)
   end
+  util.AddNetworkString("ttt2_mdm_chatsend")
 
   local function RetrieveNoiseTable()
     local json = file.Read("ttt2_mdm_noises.txt")
@@ -198,7 +199,7 @@ if SERVER then
     local tbl = random_noise
     local plys = player.GetAll()
     for i = 1, #plys do
-      tbl[#tbl + 1] = NoisifyString(plys[i]:Nick())
+      tbl[#tbl + 1] = plys[i]:Nick()
     end
     return tbl
   end
@@ -207,7 +208,7 @@ if SERVER then
     if idx == nil then
       idx = math.random(#tbl)
     end
-    tbl[idx] = noise_tbl[math.random(#noise_tbl)]
+    tbl[idx] = NoisifyString(noise_tbl[math.random(#noise_tbl)])
     return tbl
   end
 
@@ -253,15 +254,27 @@ if SERVER then
     if not ply:IsSpec() or ply:Alive() then return end
     print("[TTT2 Medium Role] Spectator Message Identified")
     local plys = util.GetAlivePlayers()
-    noise = RandomNoiseMessage(msg)
+    local noise = RandomNoiseMessage(msg)
     print("[TTT2 Medium Role] Noisified chat: " .. noise)
     for i = 1, #plys do
       local mdm = plys[i]
-      if mdm:GetSubRole() ~= ROLE_MEDIUM then continue end
-      mdm:PrintMessage(LANG.GetParamTranslation("ttt2_mdm_spirit", {msg = noise}), HUD_PRINTTALK) -- "The spirit says 'msg'"
+      if mdm:GetSubRole() == ROLE_MEDIUM then
+        net.Start("ttt2_mdm_chatsend")
+        net.WriteString(noise)
+        net.Send(mdm)
+        print("[TTT2 Medium Role] Message sent to " .. mdm:Nick())
+      end
     end
   end
 
   hook.Add("PlayerSay", "TTT2SeanceChat", SeanceChat)
 
+end
+
+if CLIENT then
+  net.Receive("ttt2_mdm_chatsend", function()
+    local mdm = LocalPlayer()
+    local noise = net.ReadString()
+    mdm:PrintMessage(LANG.GetParamTranslation("ttt2_mdm_spirit", {msg = noise}), HUD_PRINTTALK) -- "The spirit says 'msg'"
+  end)
 end
