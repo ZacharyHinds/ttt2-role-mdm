@@ -10,4 +10,4 @@ L["ttt2_desc_" .. MEDIUM.name] = [[The Medium is a detective with a special tool
 While equipped the Medium can hear the dead speak, albeit with interference]]
 
 -- OTHER ROLE LANGUAGE STRINGS
-L["ttt2_mdm_spirit"] = "The spirits speak: '{msg}'"
+L["ttt2_mdm_spirit"] = "The spirits speak: "
