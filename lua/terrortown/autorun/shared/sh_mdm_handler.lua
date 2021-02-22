@@ -269,12 +269,27 @@ if SERVER then
 
   hook.Add("PlayerSay", "TTT2SeanceChat", SeanceChat)
 
+  concommand.Add("ttt2_test_medium_chat", function()
+    local plys = util.GetAlivePlayers()
+    local noise = RandomNoiseMessage("this is a test string")
+    for i = 1, #plys do
+      local mdm = plys[i]
+      if mdm:GetSubRole() == ROLE_MEDIUM then
+        net.Start("ttt2_mdm_chatsend")
+        net.WriteString(noise)
+        net.Send(mdm)
+        print("[TTT2 Medium Role] Test Message sent to " .. mdm:Nick())
+      end
+    end
+  end)
+
 end
 
 if CLIENT then
   net.Receive("ttt2_mdm_chatsend", function()
-    local mdm = LocalPlayer()
+    -- local mdm = LocalPlayer()
     local noise = net.ReadString()
-    mdm:PrintMessage(HUD_PRINTTALK, LANG.GetParamTranslation("ttt2_mdm_spirit", {msg = noise})) -- "The spirit says 'msg'"
+    -- mdm:PrintMessage(HUD_PRINTTALK, LANG.GetParamTranslation("ttt2_mdm_spirit", {msg = noise})) -- "The spirit says 'msg'"
+    chat.AddText(Color(117, 212, 44), LANG.TryTranslation("ttt2_mdm_spirit"), COLOR_WHITE, noise)
   end)
 end
