@@ -224,17 +224,19 @@ if SERVER then
 
   local function RandomNoiseMessage(msg)
     local sentence = SplitString(msg)
+    local scramble_chance = GetConVar("ttt2_mdm_scramble_chance"):GetInt()
+    local replace_chance = GetConVar("ttt2_mdm_replace_chance"):GetInt() + scramble_chance
     if #sentence > 1 then
       for i = 1, #sentence do
         local str = sentence[i]
         local rnd = math.random(1,100)
-        if rnd <= 60 then
+        if rnd <= scramble_chance then
           sentence[i] = NoisifyString(str)
-        elseif rnd <= 85 then
+        elseif rnd <= replace_chance then
           sentence = ReplaceTblStrNoise(sentence, i, CreateNoiseList(random_noise))
         end
       end
-      if math.random(1,100) >= 45 then
+      if math.random(1,100) >= GetConVar("ttt2_mdm_shuffle_chance"):GetInt() then
         sentence = ShuffleTable(sentence)
       end
     elseif #sentence > 0 then
