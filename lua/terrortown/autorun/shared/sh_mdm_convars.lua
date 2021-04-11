@@ -17,4 +17,28 @@ hook.Add("TTTUlxDynamicRCVars", "TTTUlxDynamicMdmCVars", function(tbl)
     checkbox = true,
     desc = "ttt2_mdm_add_nicks (def. 1)"
   })
+
+  table.insert(tbl[ROLE_MEDIUM], {
+    cvar = "ttt2_mdm_scramble_chance",
+    slider = true,
+    min = 0,
+    max = 100,
+    desc = "ttt2_mdm_scramble_chance (def. 50)"
+  })
+
+  table.insert(tbl[ROLE_MEDIUM], {
+    cvar = "ttt2_mdm_replace_chance",
+    slider = true,
+    min = 0,
+    max = 100,
+    desc = "ttt2_mdm_replace_chance (def. 15)"
+  })
+
+  table.insert(tbl[ROLE_MEDIUM], {
+    cvar = "ttt2_mdm_shuffle_chance",
+    slider = true,
+    min = 0,
+    max = 100,
+    desc = "ttt2_mdm_shuffle_chance (def. 45)"
+  })
 end)
