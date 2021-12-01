@@ -11,3 +11,9 @@ While equipped the Medium can hear the dead speak, albeit with interference]]
 
 -- OTHER ROLE LANGUAGE STRINGS
 L["ttt2_mdm_spirit"] = "The spirits speak: "
+
+--SETTINGS LANGUAGE STRINGS
+L["label_ttt2_mdm_add_nicks"] = "Incorporate player usernames into chat noise"
+L["label_ttt2_mdm_scramble_chance"] = "Chance to scramble order of letters of words"
+L["label_ttt2_mdm_replace_chance"] = "Chance to replace words with random words"
+L["label_ttt2_mdm_shuffle_chance"] = "Chance to shuffle the order of words"
